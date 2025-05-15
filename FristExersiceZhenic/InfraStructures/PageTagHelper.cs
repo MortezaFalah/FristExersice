@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace FristExersiceZhenic.InfraStructures
+namespace YourProjectNamespace.TagHelpers
 {
     [HtmlTargetElement("paging")]
-    public class PageTagHelper(IUrlHelperFactory urlHelperFactory) : TagHelper
+    public class PaginationTagHelper(IUrlHelperFactory urlHelperFactory) : TagHelper
     {
+
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
@@ -18,6 +19,11 @@ namespace FristExersiceZhenic.InfraStructures
         public string Action { get; set; }
         public string Controller { get; set; }
 
+        public string UlClass { get; set; } = "pagination justify-content-center mt-3";
+        public string LiClass { get; set; } = "page-item";
+        public string AClass { get; set; } = "page-link";
+        public string ActiveClass { get; set; } = "active";
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
@@ -25,17 +31,17 @@ namespace FristExersiceZhenic.InfraStructures
             output.Content.Clear();
 
             var ulTag = new TagBuilder("ul");
-            ulTag.AddCssClass("pagination");
+            ulTag.AddCssClass(UlClass);
 
             for (int i = 1; i <= TotalPages; i++)
             {
                 var liTag = new TagBuilder("li");
-                liTag.AddCssClass("page-item");
+                liTag.AddCssClass(LiClass);
                 if (i == CurrentPage)
-                    liTag.AddCssClass("active");
+                    liTag.AddCssClass(ActiveClass);
 
                 var aTag = new TagBuilder("a");
-                aTag.AddCssClass("page-link");
+                aTag.AddCssClass(AClass);
                 aTag.Attributes["href"] = urlHelper.Action(Action, Controller, new { page = i });
                 aTag.InnerHtml.Append(i.ToString());
 

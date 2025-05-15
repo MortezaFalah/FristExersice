@@ -1,36 +1,20 @@
 ﻿@model PageData<Product>
 
 <h1> Welcome To Asp.net core</h1>
-<div style="text-align:center">
+<div>
     @foreach (var item in Model.Data)
     {
-        <h2>@item.Name</h2>
-        <h4>
-            @item.Price
-        </h4>
-        <h5>
-            @item.Description
-        </h5>
-        <h6>
-            @item.Category
-        </h6>
+        @Html.Partial("_ProductPartial" , item)
     }
-    <div>
-        @*  @if (Model.PageInfo.TotalCount > 1)
-        {
-            foreach(var item in Model.PageInfo.TotalCount)
-            {
 
-            }
-
-        } *@
-   @*      <h6>
-            @Model.PageInfo.TotalCount
-        </h6> *@
-
-    </div>
 </div>
-<paging total-pages="@Model.PageInfo.PageCount" current-page="@Model.PageInfo.PageNumber"
-        action="Index" controller="Home"></paging>
+<paging total-pages="@Model.PageInfo.PageCount"
+        current-page="@Model.PageInfo.PageNumber"
+        ul-class="pagination custom-pagination"
+        li-class="page-item my-li"
+        a-class="page-link my-a"
+        active-class="active my-active"
+        action="Index"
+        controller="Home"></paging>
 
 
